@@ -1,0 +1,229 @@
+#include<stdio.h> //Bibliotecas utilizadas. 
+#include<stdlib.h>
+#include<math.h>
+#include<time.h>
+#include<conio.h>
+#include<windows.h>
+
+/*Faça um programa que registre dados de 10 atletas que vão participar de uma competição. Os dados a serem registrados são nome completo,
+peso, altura e modalidade que competirá. Faça funções para: a) imprimir os dados de todos os atletas; b) imprimir os dados de um atleta;
+c) calcular o peso médio e altura média dos atletas; d) listar os atletas por modalidade.*/
+
+#define VERMELHO "\x1b[31m"  // Declaração das constantes (cores). 
+#define VERDE "\x1b[32m"
+#define AMARELO "\x1b[33m"
+#define AZUL "\x1b[34m"
+#define ROXO "\x1b[35m"
+#define AZUL_CLARO "\x1b[36m"
+#define RESET "\x1b[0m"
+
+struct registro // Agrupando as variaveis de cadastro para cada atleta. 
+{
+    char nome[100];
+    float peso, altura; 
+    int modalidade;
+} 
+atletas[10];
+
+int imprime() // Função que imprimi todos os dados de todos os atletas. 
+{
+    int i; 
+
+    system("cls"); // Limpa o console. 
+
+    for (i = 1; i <= 10; i++) { // Laço para imprimir todos os atletas cadastrados. 
+
+        printf(ROXO"\n---------- Informacoes dos atletas que irao participar: ---------- \n"RESET);
+        
+        printf("\nNome: %s\n", atletas[i].nome);
+        printf("Peso: %.2f\n", atletas[i].peso);
+        printf("Altura: %.2f\n", atletas[i].altura);
+        printf("Modalidade: %d\n", atletas[i].modalidade);
+    }
+
+    printf("\n");
+    system("pause"); // Pausar a tela. 
+    main(); // Retorna para o menu. 
+}
+
+int imprime_um() // Função que imprimi os dados de apenas um atleta por vez. 
+{
+    int i;
+
+    system("cls"); // Limpa o console.
+
+    printf("\nDigite o numero do atleta que voce deseja ver os dados: "); // Solicita o numero de cadastro do atleta. 
+    scanf("%d", &i);
+
+    if(i > 0 && i <= 10){ // Verifica se o numero digitado esta entre os parametros e imprimi os dados do atleta. 
+        printf(AZUL_CLARO"\n---------- Informacoes do atleta solicitado ----------\n"RESET);
+        printf("\nNome: %s\n", atletas[i].nome);
+        printf("Peso: %.2f\n", atletas[i].peso);
+        printf("Altura: %.2f\n", atletas[i].altura);
+        printf("Modalidade: %d\n", atletas[i].modalidade);
+    }else{ // Caso não esteja, ele solicita que o usuário tente novamente. 
+        printf(VERMELHO"\nTente Novamente. \n"RESET);
+    }
+
+    printf("\n");
+    system("pause"); // Pausar a tela.
+    main(); // Retorna para o menu.
+}
+
+int calculo() // Função para calcular o (Indice de Massa Corporal) de cada atleta. 
+{   
+    int i = 0;
+    float resultado;
+
+    system("cls"); // Limpa o console.
+
+    printf("\nDigite o numero do atleta que voce deseja ver o calculo do IMC: "); // Solicita o numero de cadastro do atleta.
+    scanf("%d", &i);
+
+    if(i > 0 && i <= 10){ // Verifica se o numero digitado esta entre os parametros e imprimi os dados do atleta.
+        printf(AZUL"\n---------- Informacoes do atleta solicitado ----------\n"RESET);
+        printf("\nNome: %s\n", atletas[i].nome);
+        printf("Peso: %.2f\n", atletas[i].peso);
+        printf("Altura: %.2f\n", atletas[i].altura);
+        printf("Modalidade: %d\n", atletas[i].modalidade);
+
+        resultado = (atletas[i].peso / pow(atletas[i].altura, 2)); // Formula para calcular o IMC.
+
+        printf(VERMELHO"\nO IMC do atleta e: %.2f"RESET, resultado); // Imprimi o resultado. 
+        printf(VERDE"\n\n***   IMC   ***        CLASSIFICACAO ***   OBESIDADE(GRAU)\n\n"RESET);
+        printf("Menor que 18,5           Magreza                0\n");
+        printf("Entre 18,5 e 24,9        Normal                 0\n");
+        printf("Entre 25,0 e 29,9       Sobrepeso               I\n");
+        printf("Entre 30,0 e 39,9       Obesidade               II\n");
+        printf("Maior que 40,0        Obesidade grave           III\n");
+    }else{
+        printf(VERMELHO"\nTente Novamente. \n"RESET); // Solicita que o usuário tente novamente. 
+        printf("\n");
+        system("pause");
+        main();
+    } 
+
+    printf("\n");
+    system("pause"); // Pausar a tela.
+    main(); // Retorna para o menu.
+}
+
+int modalidade_atletas() // Função para verificar os atletas por modalidades.
+{
+    int i, moda = 0; 
+
+    system("cls"); // Limpa o console.
+
+    printf(VERDE"\n*** 1 - Futebol | 2 - Basquete | 3 - Tenis | 4 - Futsal | 5 - Natacao ***"RESET); 
+    printf("\n\nDigite o numero da modalidade: ");
+    scanf("%d", &moda);
+
+    if(moda > 0 && moda <= 5){ // Verifica se o numero digitado esta entre os parametros para entrar no laço e imprimi os dados.
+        printf(AZUL"\n---------- Atletas com a mesma modalidade ---------- \n"RESET);
+       for(i = 1; i <= 10; i++){
+        if(atletas[i].modalidade == moda){
+            printf("\nNome: %s\n", atletas[i].nome);
+            printf("Peso: %.2f\n", atletas[i].peso);
+            printf("Altura: %.2f\n", atletas[i].altura);
+            printf("Modalidade: %d\n", atletas[i].modalidade);
+        }
+        }       
+    }else{
+        printf(VERMELHO"\nNumero incorreto, tente novamente."RESET); // Solicita que o usuário tente novamente.
+        printf("\n\n");
+        system("pause"); // Pausar a tela.
+        main(); // Retorna para o menu.
+    }
+
+    printf("\n\n");
+    system("pause"); // Pausar a tela.
+    main(); // Retorna para o menu.
+}
+
+int cadastro() // Função para cadastro dos atletas.
+{
+    int i;
+
+    system("cls"); // Limpa o console.
+
+    for (i = 1; i <= 10; i++) { // Laço para cadastro de 10 atletas. 
+
+        printf(AZUL"---------- ATLETA %d ----------"RESET, i);
+        printf("\n\n");
+
+        printf("Digite seu nome: ");
+        fflush(stdin);
+        gets(atletas[i].nome);
+        printf("Digite seu peso: ");
+        scanf("%f", &atletas[i].peso);
+        printf("Digite sua altura: ");
+        scanf("%f", &atletas[i].altura);
+        printf("\n");
+        printf("Escolha a modalidade:");
+        printf(VERDE"\n\n*** 1 - Futebol | 2 - Basquete | 3 - Tenis | 4 - Futsal | 5 - Natacao ***"RESET);
+        printf("\n\nDigite sua escolha: ");
+        scanf("%d", &atletas[i].modalidade);
+
+        printf("\n");
+    }
+    
+    printf("\n");
+    printf(AMARELO"PARABENS ! TODOS OS ATLETAS CADASTRADOS.\n\n"RESET);
+    system("pause"); // Pausar a tela.
+    main(); // Retorna para o menu.
+ }   
+
+int main() 
+{ 
+
+        system("cls"); // Limpa o console.
+
+        int valor;
+        char letra; // Variável usada para limitar o menu. Usuário devera entrar apenas com números. 
+
+        do{ // Impressão do menu. 
+            
+        printf (AMARELO"\n ---------- Digite um valor de 1 a 5 ----------\n"RESET);
+        printf ("\n ----- 1 - Cadastrar dados dos atletas. ");
+        printf ("\n ----- 2 - Imprimir os dados de todos os atletas. ");
+        printf ("\n ----- 3 - Imprimir os dados de um atleta. ");
+        printf ("\n ----- 4 - Calculo IMC dos atletas. ");
+        printf ("\n ----- 5 - Listar os atletas por modalidade. ");
+        printf(AZUL"\n\nDigite o numero: "RESET); // Usuário informa uma opção do menu. 
+        scanf("%d", &valor);
+        
+            switch (valor) // Menu chama outras funções.
+            {
+                case 1 :
+                cadastro();
+                break;
+                
+                case 2 :
+                imprime();
+                break;
+                
+                case 3 :
+                imprime_um();
+                break;
+                
+                case 4 :
+                calculo();
+                break;
+
+                case 5 :
+                modalidade_atletas();
+                break;
+                
+                default :
+                system("cls"); // Pausar a tela.
+                printf (VERMELHO "\n********** Valor invalido!!! Digite novamente **********\n" RESET);
+                do{ // Verificar se o usuário digitou corretamente. Caso não, retorna para mensagem de invalido. 
+                    letra = getchar();
+                }while(letra != '\n');
+            }
+        }while(valor > 5 || valor <= 0); // Finaliza o menu quando a entrada digitada esta correta. 
+
+    getch(); 
+
+    return 0;
+}
